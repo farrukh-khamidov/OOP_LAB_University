@@ -1,19 +1,18 @@
 package university;
 
+import mylib.MyArrayList;
+
 public class Student {
     private int id;
     private String firstName;
     private String lastName;
 
-    private Course[] courses;
-
-    private int count;
+    private MyArrayList courses = new MyArrayList();
 
     public Student(int id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        courses = new Course[25];
     }
 
     public int getId() {
@@ -35,13 +34,13 @@ public class Student {
 
     public String studyPlan() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < count; i++) {
-            stringBuilder.append(courses[i].toString()).append("\n");
+        for (int i = 0; i < courses.size(); i++) {
+            stringBuilder.append(courses.get(i).toString()).append("\n");
         }
         return stringBuilder.toString();
     }
 
     public void addCourse(Course course) {
-        courses[count++] = course;
+        courses.add(course);
     }
 }

@@ -1,5 +1,7 @@
 package university;
 
+import mylib.MyArrayList;
+
 /**
  * This class represents a university education system.
  * 
@@ -11,11 +13,8 @@ public class University {
 	private String name;
 	private Rector rector;
 
-	private Student[] students;
-	private Course[] courses;
-
-	private int studentId;
-	private int courseCode;
+	private MyArrayList students = new MyArrayList();
+	private MyArrayList courses = new MyArrayList();
 
 	/**
 	 * Constructor
@@ -23,10 +22,6 @@ public class University {
 	 */
 	public University(String name){
 		this.name = name;
-		students = new Student[1000];
-		courses = new Course[50];
-		studentId = 10000;
-		courseCode = 10;
 	}
 	
 	/**
@@ -64,10 +59,9 @@ public class University {
 	 * @return
 	 */
 	public int enroll(String first, String last){
-		Student student = new Student(studentId, first, last);
-		students[studentId - 10000] = student;
-		studentId++;
-		return studentId - 1;
+		Student student = new Student(students.size() + 10000, first, last);
+		students.add(student);
+		return student.getId();
 	}
 	
 	/**
@@ -77,7 +71,7 @@ public class University {
 	 * @return information about the student
 	 */
 	public String student(int id){
-		return students[id-10000].toString();
+		return students.get(id-10000).toString();
 	}
 	
 	/**
@@ -88,10 +82,9 @@ public class University {
 	 * @return the unique code assigned to the course
 	 */
 	public int activate(String title, String teacher){
-		Course course = new Course(courseCode, title, teacher);
-		courses[courseCode - 10] = course;
-		courseCode++;
-		return courseCode - 1;
+		Course course = new Course(courses.size() + 10, title, teacher);
+		courses.add(course);
+		return course.getCode();
 	}
 	
 	/**
@@ -101,7 +94,7 @@ public class University {
 	 * @return information about the course
 	 */
 	public String course(int code){
-		return courses[code - 10].toString();
+		return courses.get(code - 10).toString();
 	}
 	
 	/**
@@ -110,8 +103,8 @@ public class University {
 	 * @param courseCode id of the course
 	 */
 	public void register(int studentID, int courseCode){
-		Student student = students[studentID - 10000];
-		Course course = courses[courseCode-10];
+		Student student = (Student) students.get(studentID - 10000);
+		Course course = (Course) courses.get(courseCode - 10);
 		course.addStudent(student);
 	}
 	
@@ -122,7 +115,7 @@ public class University {
 	 * @return list of attendees separated by "\n"
 	 */
 	public String listAttendees(int courseCode){
-		Course course = courses[courseCode-10];
+		Course course = (Course) courses.get(courseCode - 10);
 		return course.listAttendees();
 	}
 
@@ -133,7 +126,7 @@ public class University {
 	 * @return list of courses the student is registered for
 	 */
 	public String studyPlan(int studentID){
-		Student student = students[studentID - 10000];
+		Student student = (Student) students.get(studentID - 10000);
 		return student.studyPlan();
 	}
 }
